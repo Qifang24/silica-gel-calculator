@@ -28,9 +28,21 @@
       padding: 30px;
       border-radius: 12px;
       max-width: 600px;
+      width: 100%;
+      min-height: 700px;
       margin: auto;
+      box-sizing: border-box;
+      overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
+    }
+    .refresh-icon {
+      cursor: pointer;
+      font-size: 15px;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-left: 0px;
     }
     label {
       display: block;
@@ -52,8 +64,11 @@
       background-color: #6c757d;
       color: white;
       border: none;
-      padding: 10px;
-      font-size: 16px;
+      padding: 6px 12px ;
+      font-size: 14px;
+      width: auto;
+      max-width: 200px;
+      display: inline-block;
       cursor: pointer;
       border-radius: 5px;
       transition: background-color 0.3s ease;
@@ -62,15 +77,21 @@
       background-color: #5a6268;
     }
     .result {
+      min-height: 180px;
       margin-top: 20px;
+      overflow-x: auto;
+      word-wrap: break-word;
       font-size: 16px;
+      transition: all 0.3 ease;
     }
     table {
       width: 100%;
       margin-top: 10px;
+      table-layout: fixed;
       border-collapse: collapse;
     }
     table, th, td {
+      word-break: break-word;
       border: 1px solid #ccc;
     }
     th, td {
@@ -105,6 +126,8 @@
     </select>
 
     <button onclick="calculateSilica()">Calculate</button>
+    
+   <span class="refresh-icon" onclick="location.reload()" title="Refresh">🔄</span>
 
     <div class="result" id="result"></div>
   </div>
