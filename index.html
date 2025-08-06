@@ -14,39 +14,46 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background-color: #ffffff;
       padding: 30px;
     }
     .container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
+      background: linear-gradient(to bottom, #ffffff, #cdeac0);
+      padding: 30px;
+      border-radius: 12px;
       max-width: 600px;
       margin: auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
     }
-    label, input, select, button {
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 16px;
+      text-align: center;
+    }
+    input, select, button {
       display: block;
       width: 100%;
-      margin-bottom: 15px;
+      margin: 0 auto 15px auto;
       font-size: 16px;
-    }
-    input, select {
-      padding: 8px;
-      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
       border-radius: 5px;
+      max-width: 300px;
     }
     button {
-      background-color: #007bff;
+      background-color: #6c757d;
       color: white;
       border: none;
       padding: 10px;
       font-size: 16px;
       cursor: pointer;
       border-radius: 5px;
+      transition: background-color 0.3s ease;
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #5a6268;
     }
     .result {
       margin-top: 20px;
@@ -118,10 +125,10 @@
       packetSizes.forEach(size => {
         const count = Math.ceil(silicaGrams / size);
         tableRows += `
-          <tr>
-            <td>${size}g Silica Gel OR</td>
-            <td>${count}</td>
-          </tr>
+        <tr>
+          <td>${size}g Silica Gel</td>
+          <td>${count}</td>
+        </tr>
         `;
       });
 
@@ -139,13 +146,14 @@
         </table>
       `;
 
-      document.getElementById('result').innerHTML =
-        `Estimated volume: <strong>${volumeLiters.toFixed(2)} liters</strong><br>` +
-        `Room humidity factor: <strong>${humidityFactor}g/L</strong><br>` +
-        `Recommended silica gel: <strong>${silicaGrams.toFixed(2)} grams</strong><br><br>` +
-        `${tableHTML}`;
+      document.getElementById('result').innerHTML = `
+  📦 <strong>Container Volume:</strong> ${volumeLiters.toFixed(2)} L</span><br>
+  💧 <strong>Humidity Factor:</strong> ${humidityFactor} g/L</span><br>
+  🧪 <strong>Recommended Silica Gel:</strong> ${silicaGrams.toFixed(2)} g</span><br><br>
+  ${tableHTML}
+`;
+
     }
   </script>
 </body>
 </html>
-
