@@ -23,6 +23,7 @@
       justify-content: center;
       align-items: center;
     }
+
     .container {
       background: linear-gradient(to bottom, #ffffff, #cdeac0);
       padding: 30px;
@@ -36,21 +37,15 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
     }
-    .refresh-icon {
-      cursor: pointer;
-      font-size: 15px;
-      background: none;
-      border: none;
-      padding: 0;
-      margin-left: 0px;
-    }
+
     label {
       display: block;
       margin-bottom: 5px;
       font-size: 16px;
       text-align: center;
     }
-    input, select, button {
+
+    input, select {
       display: block;
       width: 100%;
       margin: 0 auto 15px auto;
@@ -60,22 +55,45 @@
       border-radius: 5px;
       max-width: 300px;
     }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
     button {
       background-color: #6c757d;
       color: white;
       border: none;
-      padding: 6px 12px ;
-      font-size: 14px;
-      width: auto;
-      max-width: 200px;
-      display: inline-block;
-      cursor: pointer;
+      padding: 10px 20px;
+      font-size: 16px;
       border-radius: 5px;
+      cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     button:hover {
       background-color: #5a6268;
     }
+
+    .refresh-icon {
+      width: 42px;
+      height: 39px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .refresh-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+    }
+
     .result {
       min-height: 180px;
       margin-top: 20px;
@@ -84,24 +102,31 @@
       font-size: 16px;
       transition: all 0.3 ease;
     }
+
     table {
       width: 100%;
       margin-top: 10px;
       table-layout: fixed;
       border-collapse: collapse;
     }
+
     table, th, td {
       word-break: break-word;
       border: 1px solid #ccc;
     }
+
     th, td {
       padding: 10px;
       text-align: left;
     }
+
     th {
       background-color: #eee;
     }
   </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#6c757d">
+
 </head>
 <body>
   <div class="container">
@@ -125,9 +150,15 @@
       <option value="10">Above 90% (Very Humid)</option>
     </select>
 
-    <button onclick="calculateSilica()">Calculate</button>
-    
-   <span class="refresh-icon" onclick="location.reload()" title="Refresh">🔄</span>
+    <!-- ✅ 按钮区域 -->
+    <div class="button-row">
+      <button onclick="calculateSilica()">Calculate</button>
+      <button class="refresh-icon" onclick="location.reload()" title="Refresh">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+          <path d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 1 1 .832-.554A4 4 0 1 0 8 4v1.5a.5.5 0 0 1-1 0V3.5a.5.5 0 0 1 .5-.5h2.5a.5.5 0 0 1 0 1H8z"/>
+        </svg>
+      </button>
+    </div>
 
     <div class="result" id="result"></div>
   </div>
@@ -139,8 +170,7 @@
       const height = parseFloat(document.getElementById('height').value);
       const humidityFactor = parseFloat(document.getElementById('humidity').value);
 
-      if (isNaN(length) || isNaN(width) || isNaN(height) ||
-          length <= 0 || width <= 0 || height <= 0) {
+      if (isNaN(length) || isNaN(width) || isNaN(height) || length <= 0 || width <= 0 || height <= 0) {
         document.getElementById('result').innerText = "Please enter valid positive numbers.";
         return;
       }
@@ -154,10 +184,10 @@
       packetSizes.forEach(size => {
         const count = Math.ceil(silicaGrams / size);
         tableRows += `
-        <tr>
-          <td>${size}g Silica Gel</td>
-          <td>${count}</td>
-        </tr>
+          <tr>
+            <td>${size}g Silica Gel</td>
+            <td>${count}</td>
+          </tr>
         `;
       });
 
@@ -176,15 +206,25 @@
       `;
 
       document.getElementById('result').innerHTML = `
-  📦 <strong>Container Volume:</strong> ${volumeLiters.toFixed(2)} L</span><br>
-  💧 <strong>Humidity Factor:</strong> ${humidityFactor} g/L</span><br>
-  🧪 <strong>Recommended Silica Gel:</strong> ${silicaGrams.toFixed(2)} g</span><br><br>
-  ${tableHTML}
-`;
-
+        📦 <strong>Container Volume:</strong> ${volumeLiters.toFixed(2)} L<br>
+        💧 <strong>Humidity Factor:</strong> ${humidityFactor} g/L<br>
+        🧪 <strong>Recommended Silica Gel:</strong> ${silicaGrams.toFixed(2)} g<br><br>
+        ${tableHTML}
+      `;
     }
   </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => console.log('✅ ServiceWorker registered', reg))
+        .catch(err => console.log('❌ ServiceWorker registration failed', err));
+    });
+  }
+</script>
+
 </body>
 </html>
+
 
 
